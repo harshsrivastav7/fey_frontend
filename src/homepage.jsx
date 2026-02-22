@@ -474,23 +474,40 @@ function Navbar() {
 
       {/* Mobile drawer */}
       <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity:0, y:-20 }}
-            animate={{ opacity:1, y:0 }}
-            exit={{ opacity:0, y:-20 }}
-            transition={{ duration:0.25 }}
-            style={{ position:"fixed", top:64, left:0, right:0, zIndex:49, background:"rgba(6,6,8,0.97)", backdropFilter:"blur(24px)", borderBottom:`1px solid ${C.border}`, padding:"20px 24px 28px", display:"flex", flexDirection:"column", gap:18 }}>
-            {["Dashboard","Pricing","Updates","Students","Sign in"].map(l => (
-              <a key={l} href="#" onClick={() => setMenuOpen(false)}
-                style={{ color:C.muted, fontSize:15, textDecoration:"none", fontWeight:500 }}>{l}</a>
-            ))}
-            <button style={{ background:C.lime, color:"#000", border:"none", borderRadius:100, padding:"12px 24px", fontSize:14, fontWeight:700, cursor:"none", width:"fit-content" }}>
-              Try for free
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+  {menuOpen && (
+    <motion.div
+      initial={{ opacity:0, y:-20 }}
+      animate={{ opacity:1, y:0 }}
+      exit={{ opacity:0, y:-20 }}
+      transition={{ duration:0.25 }}
+      style={{ position:"fixed", top:64, left:0, right:0, zIndex:49, background:"rgba(6,6,8,0.97)", backdropFilter:"blur(24px)", borderBottom:`1px solid ${C.border}`, padding:"20px 24px 28px", display:"flex", flexDirection:"column", gap:18 }}>
+      
+      {[
+        { label: "CRM Dashboard", path: "/CrmDashboard" },
+        { label: "Lead",          path: "/LeadPage"     },
+        { label: "Updates",       path: null            },
+        { label: "Students",      path: null            },
+        { label: "Sign in",       path: null            },
+      ].map((item) => (
+        <a key={item.label} href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setMenuOpen(false);
+            if (item.path) navigate(item.path);
+          }}
+          style={{ color:C.muted, fontSize:15, textDecoration:"none", fontWeight:500 }}>
+          {item.label}
+        </a>
+      ))}
+
+      <button
+        style={{ background:C.lime, color:"#000", border:"none", borderRadius:100, padding:"12px 24px", fontSize:14, fontWeight:700, cursor:"none", width:"fit-content" }}
+        onClick={() => setMenuOpen(false)}>
+        Try for free
+      </button>
+    </motion.div>
+  )}
+</AnimatePresence>
     </>
   );
 }
